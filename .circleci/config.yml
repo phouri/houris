@@ -9,22 +9,31 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install npm
-          command: npm --version && npm install
+          command: npm install
+      - run:
+          name: ESLint
+          command: npm run lint
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Unit Test
+          command: npm run unit
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-  unit:
+  e2e:
     docker:
       - image: circleci/node:8.5.0 
     steps:
       - checkout
       - run:
-          name: ESLint
-          command: npm run lint
+          name: Build
+          command: npm run build
       - run:
-          name: Unit Test
-          command: npm run unit
+          name: Tests
+          command: npm test
       # - run:
       #     name: Generate code coverage
       #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
@@ -40,13 +49,9 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - unit:
-          requires:
-            - build
       - e2e:
           requires:
             - build
-            - unit
           filters:
             branches:
               only: master

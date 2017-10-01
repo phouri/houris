@@ -21,10 +21,10 @@ jobs:
       - checkout
       - run:
           name: ESLint
-          command: npm lint
+          command: npm run lint
       - run:
           name: Unit Test
-          command: npm unit
+          command: npm run unit
       # - run:
       #     name: Generate code coverage
       #     command: './node_modules/.bin/nyc report --reporter=text-lcov'

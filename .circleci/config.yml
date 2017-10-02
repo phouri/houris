@@ -34,7 +34,7 @@ jobs:
             - node_modules
       - run:
           name: Deploy Production
-          command: ./circleci-deploy.sh default
+          command: ./circleci-deploy.sh
           branches:
             only:
               - master

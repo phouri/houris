@@ -7,4 +7,8 @@ sudo sh gcloud_install.sh --disable-prompts --install-dir="/bin"
 sudo /bin/google-cloud-sdk/bin/gcloud --quiet components update
 sudo /bin/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 sudo /bin/google-cloud-sdk/bin/gcloud config set project hourinetwork
-sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote -v $1
+if [ "$1" != "" ]; then
+   sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote -v $1
+else
+   sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote
+fi

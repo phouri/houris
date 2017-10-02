@@ -1,0 +1,10 @@
+runtime: nodejs
+env: flex
+handlers:
+- url: /(.*\.(js|css))$
+  static_files: dist/\1
+  upload: dist/.*\.(gif|png|jpg)$
+- url: /.*
+
+builtins:
+- appstats: on

@@ -17,7 +17,7 @@ function connect () {
   }
 
   if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
-    config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+    config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
   }
 
   // Connect to the database
@@ -25,9 +25,10 @@ function connect () {
     client: 'pg',
     connection: config
   })
-
+  console.log('Migrating');
   return knex.schema.hasTable('visits')
   .then((exists) => {
+    console.log('Exists?', exists);
     if (!exists) {
       return knex.schema.createTable('visits', (table) => {
         table.increments()

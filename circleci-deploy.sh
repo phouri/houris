@@ -8,7 +8,7 @@ sudo /bin/google-cloud-sdk/bin/gcloud --quiet components update
 sudo /bin/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 sudo /bin/google-cloud-sdk/bin/gcloud config set project hourinetwork
 if [ "$1" != "" ]; then
-   sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote -v $1
+   sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --no-promote -v $1
 else
    sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote
 fi

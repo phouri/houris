@@ -5,6 +5,7 @@ curl -L -o google-cloud-sdk.zip https://dl.google.com/dl/cloudsdk/channels/rapid
 unzip google-cloud-sdk.zip
 rm google-cloud-sdk.zip
 sudo google-cloud-sdk/install.sh --usage-reporting=false --bash-completion=true --path-update=true --rc-path=/.bashrc
+sudo source ~/.bashrc
 gcloud --quiet components update
 gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 gcloud config set project hourisnetwork

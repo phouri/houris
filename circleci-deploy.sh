@@ -1,12 +1,10 @@
 #!/bin/sh
 echo $GCLOUD_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
 # Install gcloud
-curl -L -o google-cloud-sdk.zip https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip
-unzip google-cloud-sdk.zip
-rm google-cloud-sdk.zip
-sudo google-cloud-sdk/install.sh --usage-reporting=false --bash-completion=true --path-update=true --rc-path=/.bashrc
-sudo source ~/.bashrc
-gcloud --quiet components update
-gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-gcloud config set project hourisnetwork
-gcloud -q app deploy app.yaml --promote 
+curl https://dl.google.com/dl/cloudsdk/channels/rapid/install_google_cloud_sdk.bash -o gcloud_install.sh
+sudo sh gcloud_install.sh --disable-prompts --install-dir="/bin"
+
+sudo /bin/google-cloud-sdk/bin/gcloud --quiet components update
+sudo /bin/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+sudo /bin/google-cloud-sdk/bin/gcloud config set project hourisnetwork
+sudo /bin/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote 

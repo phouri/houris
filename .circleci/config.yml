@@ -32,7 +32,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-      run:
+      - run:
           name: Deploy Script
           command: ./circleci-deploy.sh
           branches:

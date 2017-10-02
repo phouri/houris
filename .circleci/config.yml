@@ -39,7 +39,7 @@ jobs:
               ./circleci-deploy.sh          
             fi
             if [ "${CIRCLE_BRANCH}" == "staging" ]; then
-              ./circleci-deploy.sh staging-1
+              ./circleci-deploy.sh staging1
             fi
 workflows:
   version: 2

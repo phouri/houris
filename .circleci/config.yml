@@ -33,11 +33,17 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: Deploy Script
-          command: ./circleci-deploy.sh
+          name: Deploy Production
+          command: ./circleci-deploy.sh default
           branches:
             only:
               - master
+      - run:
+          name: Deploy staging
+          command: ./circleci-deploy.sh staging
+          branches:
+            only:
+              - staging
 workflows:
   version: 2
   build_and_test:

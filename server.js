@@ -6,7 +6,6 @@ const crypto = require('crypto')
 let knex
 connect().then((db) => {
   knex = db
-  start()
 })
 
 function connect () {
@@ -96,13 +95,10 @@ app.get('/visits', (req, res, next) => {
 
 const PORT = process.env.PORT || 8080
 
-function start () {
-  app.listen(PORT, (e) => {
-    if (e) {
-      console.error('Error initializing', e)
-    } else {
-      console.log('Listening on 8080')
-    }
-  })
-}
-
+app.listen(PORT, (e) => {
+  if (e) {
+    console.error('Error initializing', e)
+  } else {
+    console.log('Listening on 8080')
+  }
+})

@@ -69,13 +69,18 @@ function getVisits (knex) {
 }
 
 app.use('*', (req, res, next) => {
+  next();
+  try {
   // Create a visit record to be stored in the database
   const visit = {
     timestamp: new Date(),
     // Store a hash of the visitor's ip address
     userIp: crypto.createHash('sha256').update(req.ip).digest('hex').substr(0, 7)
   }
-  req.visitPromise = insertVisit(knex, visit)
+    req.visitPromise = insertVisit(knex, visit)
+  } catch (e) { 
+    console.log('Error!', e);
+  }
 })
 
 app.get('/visits', (req, res, next) => {

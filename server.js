@@ -21,7 +21,7 @@ function connect () {
 
   // Connect to the database
   const knex = Knex({
-    client: 'pg',
+    client: 'mysql',
     connection: config
   })
 

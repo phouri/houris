@@ -18,7 +18,7 @@ function connect () {
   if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
     config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
   }
-
+  console.log('Connecting...')
   // Connect to the database
   const knex = Knex({
     client: 'mysql',

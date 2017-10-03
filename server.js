@@ -25,17 +25,18 @@ function connect () {
     connection: config
   })
 
-  return knex.schema.hasTable('visits')
+  knex.schema.hasTable('visits')
   .then((exists) => {
     if (!exists) {
       return knex.schema.createTable('visits', (table) => {
         table.increments()
         table.timestamp('timestamp')
         table.string('userIp')
-      }).then(() => knex)
+      })
     }
-    return knex
   })
+
+  return knex
 }
 
 app.use(express.static('dist'))

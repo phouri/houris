@@ -1,13 +1,13 @@
 runtime: nodejs
 env: flex
 env_variables:
-  SQL_USER: default
-  SQL_PASSWORD: default
-  SQL_DATABASE: production
-  INSTANCE_CONNECTION_NAME: hourinetwork:europe-west1:production
+  SQL_USER: postgres
+  SQL_PASSWORD: v6ByojC18AgysnAf
+  SQL_DATABASE: postgres
+  INSTANCE_CONNECTION_NAME: hourinetwork:europe-west1:test
 
 beta_settings:
-  cloud_sql_instances: hourinetwork:europe-west1:production
+  cloud_sql_instances: hourinetwork:europe-west1:test
 
 automatic_scaling:
   min_num_instances: 1

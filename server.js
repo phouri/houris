@@ -30,9 +30,11 @@ function connect () {
         table.increments()
         table.timestamp('timestamp')
         table.string('userIp')
+      }).catch((e) => {
+        console.error('Error creating', e)
       })
     }
-  })
+  }).catch(e => console.error('Error existing', e))
 
   return knex
 }

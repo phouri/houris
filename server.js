@@ -24,10 +24,9 @@ function connect () {
     client: 'pg',
     connection: config
   })
-  console.log('Migrating');
+
   return knex.schema.hasTable('visits')
   .then((exists) => {
-    console.log('Exists?', exists);
     if (!exists) {
       return knex.schema.createTable('visits', (table) => {
         table.increments()
@@ -64,28 +63,28 @@ function getVisits (knex) {
     .orderBy('timestamp', 'desc')
     .limit(10)
     .then((results) => {
-      return results.map((visit) => `Time: ${visit.timestamp}, AddrHash: ${visit.userIp}`);
+      return results.map((visit) => `Time: ${visit.timestamp}, AddrHash: ${visit.userIp}`)
     })
 }
 
 app.use('*', (req, res, next) => {
-  next();
+  next()
   try {
   // Create a visit record to be stored in the database
-  const visit = {
-    timestamp: new Date(),
-    // Store a hash of the visitor's ip address
-    userIp: crypto.createHash('sha256').update(req.ip).digest('hex').substr(0, 7)
-  }
-    req.visitPromise = insertVisit(knex, visit)
-  } catch (e) { 
-    console.log('Error!', e);
+    const visit = {
+      timestamp: new Date(),
+      // Store a hash of the visitor's ip address
+      userIp: crypto.createHash('sha256').update(req.ip).digest('hex').substr(0, 7)
+    }
+    insertVisit(knex, visit)
+  } catch (e) {
+    console.log('Error!', e)
   }
 })
 
 app.get('/visits', (req, res, next) => {
   // Query the last 10 visits from the database.
-  req.visitPromise.then(() => getVisits(knex))
+  getVisits(knex)
   .then((visits) => {
     res
       .status(200)

@@ -3,10 +3,7 @@ const app = express()
 const Knex = require('knex')
 const crypto = require('crypto')
 
-let knex
-connect().then((db) => {
-  knex = db
-})
+let knex = connect()
 
 function connect () {
   const config = {

@@ -27,6 +27,7 @@ function connect () {
 
   knex.schema.hasTable('visits')
   .then((exists) => {
+    console.log('Exists?', exists)
     if (!exists) {
       return knex.schema.createTable('visits', (table) => {
         table.increments()

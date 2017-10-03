@@ -1,43 +1,7 @@
 const express = require('express')
 const app = express()
-const Knex = require('knex')
 const crypto = require('crypto')
-
-let knex = connect()
-
-function connect () {
-  const config = {
-    user: process.env.SQL_USER,
-    password: process.env.SQL_PASSWORD,
-    database: process.env.SQL_DATABASE
-  }
-
-  if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
-    config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
-  }
-  console.log('Connecting...')
-  // Connect to the database
-  const knex = Knex({
-    client: 'mysql',
-    connection: config
-  })
-
-  knex.schema.hasTable('visits')
-  .then((exists) => {
-    console.log('Exists?', exists)
-    if (!exists) {
-      return knex.schema.createTable('visits', (table) => {
-        table.increments()
-        table.timestamp('timestamp')
-        table.string('userIp')
-      }).catch((e) => {
-        console.error('Error creating', e)
-      })
-    }
-  }).catch(e => console.error('Error existing', e))
-
-  return knex
-}
+const models = require('./models')
 
 app.use(express.static('dist'))
 
@@ -48,8 +12,8 @@ app.use(express.static('dist'))
  * @param {object} visit The visit record to insert.
  * @returns {Promise}
  */
-function insertVisit (knex, visit) {
-  return knex('visits').insert(visit)
+function insertVisit (visit) {
+  return models.visits.create(visit)
 }
 
 /**
@@ -59,10 +23,7 @@ function insertVisit (knex, visit) {
  * @returns {Promise}
  */
 function getVisits (knex) {
-  return knex.select('timestamp', 'userIp')
-    .from('visits')
-    .orderBy('timestamp', 'desc')
-    .limit(10)
+  return models.visits.findAll({limit: 10, attributes: ['timestamp', 'userIp'], order: ['timestamp']})
     .then((results) => {
       return results.map((visit) => `Time: ${visit.timestamp}, AddrHash: ${visit.userIp}`)
     })
@@ -77,7 +38,7 @@ app.use('*', (req, res, next) => {
       // Store a hash of the visitor's ip address
       userIp: crypto.createHash('sha256').update(req.ip).digest('hex').substr(0, 7)
     }
-    insertVisit(knex, visit)
+    insertVisit(visit)
   } catch (e) {
     console.log('Error!', e)
   }
@@ -85,7 +46,7 @@ app.use('*', (req, res, next) => {
 
 app.get('/visits', (req, res, next) => {
   // Query the last 10 visits from the database.
-  getVisits(knex)
+  getVisits()
   .then((visits) => {
     res
       .status(200)

@@ -18,6 +18,6 @@
     "password": "ODds37ffCwI4pbvC",
     "database": "prod",
     "dialect": "mysql",
-    "host": "hourinetwork:europe-west1:mysql"
+    "host": "/cloudsql/hourinetwork:europe-west1:mysql"
   }
 }

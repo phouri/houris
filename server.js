@@ -5,24 +5,11 @@ const models = require('./models')
 
 app.use(express.static('dist'))
 
-/**
- * Insert a visit record into the database.
- *
- * @param {object} knex The Knex connection object.
- * @param {object} visit The visit record to insert.
- * @returns {Promise}
- */
 function insertVisit (visit) {
   return models.visits.create(visit)
 }
 
-/**
- * Retrieve the latest 10 visit records from the database.
- *
- * @param {object} knex The Knex connection object.
- * @returns {Promise}
- */
-function getVisits (knex) {
+function getVisits () {
   return models.visits.findAll({limit: 10, attributes: ['timestamp', 'userIp'], order: ['timestamp']})
     .then((results) => {
       return results.map((visit) => `Time: ${visit.timestamp}, AddrHash: ${visit.userIp}`)

@@ -17,6 +17,7 @@
     "username": "root",
     "password": "ODds37ffCwI4pbvC",
     "database": "prod",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "host": "hourinetwork:europe-west1:mysql"
   }
 }

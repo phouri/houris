@@ -17,13 +17,14 @@ function getVisits () {
     })
 }
 
+app.use('/_ah/healthcheck', (req, res) => {
+  console.log('Healthcheck')
+  res.send('OK')
+})
+
 app.use('*', (req, res, next) => {
   next()
   try {
-    if (req.path.indexOf('/_ah/health') > -1) {
-      console.log('Healthcheck, not adding visit')
-      next()
-    }
   // Create a visit record to be stored in the database
     const visit = {
       timestamp: new Date(),

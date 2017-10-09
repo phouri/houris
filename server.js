@@ -17,7 +17,7 @@ function getVisits () {
     })
 }
 
-app.use('/_ah/healthcheck', (req, res) => {
+app.get('/_ah/health', (req, res) => {
   console.log('Healthcheck')
   res.send('OK')
 })

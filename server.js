@@ -4,7 +4,7 @@ const crypto = require('crypto')
 const models = require('./models')
 
 app.use(express.static('dist'))
-
+app.set('trust proxy', true)
 function insertVisit (visit) {
   return models.visits.create(visit)
 }
@@ -19,6 +19,7 @@ function getVisits () {
 app.use('*', (req, res, next) => {
   next()
   try {
+    console.log('Received request from', req.ip, req.host, req.path)
   // Create a visit record to be stored in the database
     const visit = {
       timestamp: new Date(),

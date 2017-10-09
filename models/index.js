@@ -8,8 +8,6 @@ var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
-if (env === 'production') config.host = process.env.INSTANCE_CONNECTION_NAME
-
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 fs

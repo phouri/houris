@@ -5,6 +5,7 @@ const models = require('./models')
 
 app.use(express.static('dist'))
 app.set('trust proxy', true)
+
 function insertVisit (visit) {
   return models.visits.create(visit)
 }
@@ -19,7 +20,10 @@ function getVisits () {
 app.use('*', (req, res, next) => {
   next()
   try {
-    console.log('Received request from', req.ip, req.host, req.path)
+    if (req.path.indexOf('/_ah/health') > -1) {
+      console.log('Healthcheck, not adding visit')
+      next()
+    }
   // Create a visit record to be stored in the database
     const visit = {
       timestamp: new Date(),
